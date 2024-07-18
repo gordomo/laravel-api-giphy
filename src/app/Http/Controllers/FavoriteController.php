@@ -54,11 +54,17 @@ class FavoriteController extends Controller
 
         $user = Auth::user();
         $gif_id = $request->input('gif_id');
-        $favorite = Favorite::where('user_id', $user->id)->where('gif_id', $gif_id)->firstOrFail();
+        $favorite = Favorite::where('user_id', $user->id)->where('gif_id', $gif_id)->first();
+        
+        if ( $favorite === null ) {
+            return $this->sendResponse(['success' => false, 'code' => 404, 'message' => 'gif not found']);
+        }
         
         $favorite->delete();
-
-        return $this->sendResponse(['success' => true, 'code' => 204, 'message' => 'gif delete successfully']);
+        return $this->sendResponse(['success' => true, 'code' => 200, 'message' => 'gif delete successfully']);
+        
+        
+        
     }
 }
 
