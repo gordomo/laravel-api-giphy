@@ -1,0 +1,321 @@
+{
+	"info": {
+		"_postman_id": "2f528919-893d-4fca-893f-ccfa5aaee6d4",
+		"name": "Laravel_local_api",
+		"description": "Hello! This is a Laravel-based API that integrates with the Giphy API. It includes OAuth2 authentication using Laravel Passport, persistent storage for user interactions, and unit tests.\n\nFirst, you should use the register endpoint to create a new user and get a token. This token will be saved in an environment variable called `token` and will be used for each subsequent call. The token will expire in 30 minutes; after that, you can use the login endpoint to get a new token (it will be stored in the same environment variable).\n\nMartín Mori",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "993061"
+	},
+	"item": [
+		{
+			"name": "login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.response.to.have.status(200);\r",
+							"var response = pm.response.json()  \r",
+							"pm.collectionVariables.set('token', response.data.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/login?email=morimartin@gmail.com&password=hola1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"login"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "morimartin@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "hola1234"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/register?name=test&email=morimartin@gmail.com&password=hola1234&c_password=hola1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"register"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "test"
+						},
+						{
+							"key": "email",
+							"value": "morimartin@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "hola1234"
+						},
+						{
+							"key": "c_password",
+							"value": "hola1234"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/search-gifs?query=peaches",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"search-gifs"
+					],
+					"query": [
+						{
+							"key": "query",
+							"value": "peaches"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "search by id",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/search-by-id?gifId=OQkjelDb4JcuP3rEBw",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"search-by-id"
+					],
+					"query": [
+						{
+							"key": "gifId",
+							"value": "OQkjelDb4JcuP3rEBw"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "favorites index",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8001/api/favorites"
+			},
+			"response": []
+		},
+		{
+			"name": "save favorite gif",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/favorites?gif_id=OQkjelDb4JcuP3rEBw&embed_url=https://giphy.com/embed/OQkjelDb4JcuP3rEBw",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"favorites"
+					],
+					"query": [
+						{
+							"key": "gif_id",
+							"value": "OQkjelDb4JcuP3rEBw"
+						},
+						{
+							"key": "embed_url",
+							"value": "https://giphy.com/embed/OQkjelDb4JcuP3rEBw"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete favorite gift",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": {
+						"token": "{{token}}"
+					}
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/favorites?gif_id=OQkjelDb4JcuP3rEBw",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"favorites"
+					],
+					"query": [
+						{
+							"key": "gif_id",
+							"value": "OQkjelDb4JcuP3rEBw"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.response.to.have.status(200);\r",
+							"var response = pm.response.json()  \r",
+							"pm.collectionVariables.set('token', response.data.token);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8001/api/register?email=morimartin2@gmail.com&password=hola1234&c_password=hola1234&name=martin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8001",
+					"path": [
+						"api",
+						"register"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "morimartin2@gmail.com"
+						},
+						{
+							"key": "password",
+							"value": "hola1234"
+						},
+						{
+							"key": "c_password",
+							"value": "hola1234"
+						},
+						{
+							"key": "name",
+							"value": "martin"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
