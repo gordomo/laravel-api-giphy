@@ -22,7 +22,73 @@ This project is a Laravel-based API that integrates with the Giphy API. It inclu
    - composer install
    - php artisan passport:install
    - php artisan migrate
+  
+## Use cases
+***Actor: User***
 
+1. **User Registration (Register)**
+   - Provides name, email, password, and password confirmation
+   - Receives an authentication token if the registration is successful
+
+2. **Login**
+   - Provides email and password
+   - Receives an authentication token if the credentials are correct
+
+3. **GIF Search on Giphy**
+   - Provides a keyword
+   - Receives a list of GIFs matching the keyword
+
+4. **Search GIF by ID on Giphy**
+   - Provides the ID of a GIF
+   - Receives the details of the GIF
+
+5. **View Favorites**
+   - Requests the list of favorite GIFs
+   - Receives the list of saved favorite GIFs
+
+6. **Add GIF to Favorites**
+   - Provides the ID and URL of a GIF
+   - The GIF is saved to the list of favorites
+
+7. **Remove GIF from Favorites**
+   - Provides the ID of a GIF
+   - The GIF is removed from the list of favorites
+
+
+## Diagrama de Entidad-Relación (DER)
+
+```plaintext
+      +-------------------+
+      |       users       |
+      +-------------------+
+      | id (PK)           |
+      | name              |
+      | email (Unique)    |
+      | password          |
+      | remember_token    |
+      | email_verified_at |
+      | created_at        |
+      | updated_at        |
+      +-------------------+
+         /         \
+        /           \
+       /             \
+      /               \
++-------------------+   +----------------------------+
+|    favorites      |   |    giphy_interactions      |
++-------------------+   +----------------------------+
+| id (PK)           |   | id (PK)                    |
+| user_id (FK)      |   | user_id (FK)               |
+| gif_id (Unique)   |   | service                    |
+| embed_url (Unique)|   | query                      |
+| created_at        |   | http_response              |
+| updated_at        |   | response (JSON)            |
++-------------------+   | requester_ip               |
+                        | created_at                 |
+                        | updated_at                 |
+                        +----------------------------+
+
+```
 ## API Endpoints
 
 ### Register
