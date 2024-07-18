@@ -1,5 +1,5 @@
 # imagen de dockerhub que descargara
-FROM php:8.1.20RC1-fpm-alpine3.16
+FROM php:8.2-fpm-alpine
 
 # algunas configuraciones para que funcione el contenedor
 RUN docker-php-ext-install pdo pdo_mysql
